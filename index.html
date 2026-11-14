@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ticket Prices: best seat for the money</title>
 <meta name="description" content="Pick a city, pick an event, and see the best seats for the money across SeatGeek, StubHub, TickPick, Ticketmaster, Vivid Seats and Gametime.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect x='1' y='5' width='24' height='16' rx='3' fill='%23ffc93c'/%3E%3Ccircle cx='17' cy='5' r='2.5' fill='%2314213d'/%3E%3Ccircle cx='17' cy='21' r='2.5' fill='%2314213d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,16 +75,40 @@
   .add-city { font: 500 14px var(--body); color: #c9d2e6; margin-left: 4px; }
   .add-city a { color: #fff; }
 
-  .event-rail { margin-top: 18px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
-  .event-btn {
-    flex: none; text-align: left; cursor: pointer; color: #fff; background: var(--navy-2);
-    border: 1px solid var(--navy-3); border-radius: var(--radius-ui); padding: 10px 14px; min-width: 200px; max-width: 260px;
-    font: 400 13px/1.35 var(--body);
+  .band.compact { padding-bottom: 40px; }
+  .back { display: inline-block; margin-top: 18px; color: #c9d2e6; font-size: 14px; text-decoration: none; }
+  .back:hover { color: #fff; text-decoration: underline; }
+
+  /* ---------- City list view ---------- */
+  .list-controls { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: end; }
+  .search { font: 400 15px var(--body); color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-ui); padding: 9px 12px; width: 260px; max-width: 100%; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-ui); overflow: hidden; }
+  .seg button { font: 500 14px var(--body); background: transparent; color: var(--ink-2); border: 0; padding: 8px 12px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; font-weight: 600; }
+  @media (prefers-color-scheme: dark) { .seg button[aria-pressed="true"] { background: var(--signal); color: var(--signal-ink); } }
+  .ev-list { margin-top: 16px; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius-ui); }
+  .ev { display: grid; grid-template-columns: 74px minmax(0, 1fr) 200px 190px; gap: 18px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line-2); }
+  .ev:last-child { border-bottom: 0; }
+  .ev-date { text-align: center; line-height: 1; }
+  .ev-date .m { font-size: 12px; color: var(--ink-3); font-weight: 600; }
+  .ev-date .dd { font: 700 34px/1 var(--display); display: block; margin: 2px 0; }
+  .ev-date .w { font-size: 12px; color: var(--ink-3); }
+  .ev-name { font: 700 21px/1.1 var(--display); margin: 0 0 4px; letter-spacing: .01em; }
+  .ev-sub { font-size: 13px; color: var(--ink-3); }
+  .ev-sub .tag { margin-left: 6px; }
+  .src { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+  .src .who { font-weight: 700; color: var(--ink); display: block; }
+  .src .p { font: 700 22px/1 var(--display); color: var(--ink); }
+  .src a { font-weight: 600; }
+  .src.none { color: var(--ink-3); }
+  .seats-btn { display: inline-block; margin-top: 8px; font: 600 13px var(--body); padding: 6px 10px; border-radius: var(--radius-ui); background: var(--signal); color: var(--signal-ink); text-decoration: none; border: 0; cursor: pointer; }
+  .list-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--ink-3); }
+  .more { font: 600 14px var(--body); padding: 9px 14px; border-radius: var(--radius-ui); border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+  @media (max-width: 900px) {
+    .ev { grid-template-columns: 60px minmax(0, 1fr); }
+    .ev .src { grid-column: 2; }
   }
-  .event-btn b { display: block; font: 700 19px/1.1 var(--display); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .event-btn span { color: #c9d2e6; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .event-btn[aria-pressed="true"] { background: #fff; color: var(--navy); border-color: #fff; }
-  .event-btn[aria-pressed="true"] span { color: var(--ink-2); }
 
   .event-title { font: 800 clamp(48px, 9vw, 108px)/.92 var(--display); letter-spacing: -.01em; margin: 34px 0 12px; text-wrap: balance; }
   .event-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: #c9d2e6; font-size: 15px; }
@@ -263,7 +288,7 @@
       <select id="state" aria-label="State"></select>
       <span class="add-city" id="add-city"></span>
     </div>
-    <div class="event-rail" id="event-rail" role="group" aria-label="Events"></div>
+    <a class="back" id="back" href="#" hidden></a>
 
     <h1 class="event-title" id="event-title">Loading…</h1>
     <div class="event-meta" id="event-meta"></div>
@@ -272,6 +297,41 @@
 </header>
 
 <main class="wrap">
+  <div id="list-view" hidden>
+    <section aria-labelledby="list-h" style="margin-top:28px">
+      <div class="panel list-controls">
+        <div class="control">
+          <label for="q" class="lbl">Search</label>
+          <input id="q" class="search" type="search" placeholder="Artist, team or venue" autocomplete="off">
+        </div>
+        <div class="control">
+          <span class="lbl" id="cat-lbl">Type</span>
+          <div class="chips" role="group" aria-labelledby="cat-lbl" id="cats"></div>
+        </div>
+        <div class="control">
+          <span class="lbl" id="when-lbl">When</span>
+          <div class="seg" role="group" aria-labelledby="when-lbl" id="when">
+            <button type="button" data-days="7" aria-pressed="false">7 days</button>
+            <button type="button" data-days="30" aria-pressed="false">30 days</button>
+            <button type="button" data-days="0" aria-pressed="true">All</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="lbl" id="sort-lbl">Sort</span>
+          <div class="seg" role="group" aria-labelledby="sort-lbl" id="list-sort">
+            <button type="button" data-sort="date" aria-pressed="true">Soonest</button>
+            <button type="button" data-sort="price" aria-pressed="false">Cheapest</button>
+          </div>
+        </div>
+      </div>
+      <h3 id="list-h" class="visually-hidden" hidden>Events</h3>
+      <div id="list-notice"></div>
+      <div class="ev-list" id="ev-list"></div>
+      <div class="list-foot"><span id="list-count"></span><button type="button" class="more" id="more" hidden>Show more</button></div>
+    </section>
+  </div>
+
+  <div id="detail-view" hidden>
   <div class="picks" id="picks"></div>
 
   <div id="event-body">
@@ -349,6 +409,7 @@
         <button type="button" class="show-all" id="show-all" hidden></button>
       </div>
     </section>
+  </div>
   </div>
 
   <footer id="footer"></footer>
@@ -489,36 +550,144 @@
   }
   const filtered = () => score(state.listings.filter((l) => baseFilter(l) && l.totalPrice <= state.maxPrice).map((l) => ({ ...l })));
 
-  // ---------- Location + event selection ----------
-  const eventsIn = (loc) => state.index.events.filter((e) => e.state === loc.state && e.city === loc.city);
+  // ---------- Location ----------
+  // Two sources: data/free/ (every event from the free Ticketmaster + SeatGeek APIs)
+  // and data/index.json (events captured seat-by-seat with Tickets.dev).
+  const free = { summary: null, byState: {} };
+  const list = { q: "", cats: new Set(), days: 0, sort: "date", limit: 50 };
+  const pref = {
+    get() { try { return JSON.parse(localStorage.getItem("tp-loc") || "null"); } catch { return null; } },
+    set(v) { try { localStorage.setItem("tp-loc", JSON.stringify(v)); } catch {} },
+  };
 
-  function renderLocation() {
-    const evs = state.index.events;
-    const states = [...new Set(evs.map((e) => e.state))].sort((a, b) => (STATES[a] || a).localeCompare(STATES[b] || b));
-    $("#state").innerHTML = states.map((s) => `<option value="${esc(s)}">${esc(STATES[s] || s)}</option>`).join("");
-    $("#state").value = state.loc.state;
-    const cities = [...new Set(evs.filter((e) => e.state === state.loc.state).map((e) => e.city))].sort();
-    $("#city").innerHTML = cities.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
-    $("#city").value = state.loc.city;
-    $("#add-city").innerHTML = `Somewhere else? <a href="${repo}/actions/workflows/capture.yml" target="_blank" rel="noopener">Add a city</a>`;
-
-    const list = eventsIn(state.loc);
-    $("#event-rail").innerHTML = list.map((e) => `<button type="button" class="event-btn" data-id="${esc(e.id)}" aria-pressed="${e.id === state.eventId}">
-        <b>${esc(e.name)}</b>
-        <span>${esc(localDate(e.date, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</span>
-        <span>${esc(e.venue)}</span>
-        <span>${e.getInPrice ? `From ${money(e.getInPrice)}` : "No listings"} on ${e.markets.length} marketplace${e.markets.length === 1 ? "" : "s"}</span>
-      </button>`).join("");
-    $("#event-rail").hidden = list.length < 2;
+  function cityCounts(st) {
+    const out = { ...(free.summary?.states?.[st]?.cities || {}) };
+    for (const e of state.index.events) if (e.state === st && !(e.city in out)) out[e.city] = (out[e.city] || 0) + 1;
+    return out;
   }
+  function allStates() {
+    const s = new Set([...Object.keys(free.summary?.states || {}), ...state.index.events.map((e) => e.state)]);
+    return [...s].sort((a, b) => (STATES[a] || a).localeCompare(STATES[b] || b));
+  }
+  const biggest = (counts) => Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0];
 
   function setLocation(st, city) {
-    const evs = state.index.events;
-    state.loc.state = st && evs.some((e) => e.state === st) ? st : evs[0].state;
-    const inState = evs.filter((e) => e.state === state.loc.state);
-    state.loc.city = city && inState.some((e) => e.city === city) ? city : inState[0].city;
-    const list = eventsIn(state.loc);
-    if (!list.some((e) => e.id === state.eventId)) state.eventId = list[0].id;
+    const states = allStates();
+    if (!states.includes(st)) {
+      const totals = states.map((s) => [s, Object.values(cityCounts(s)).reduce((a, b) => a + b, 0)]);
+      st = totals.sort((a, b) => b[1] - a[1])[0][0];
+    }
+    const counts = cityCounts(st);
+    state.loc = { state: st, city: city in counts ? city : biggest(counts) };
+  }
+
+  function renderLocation() {
+    $("#state").innerHTML = allStates().map((s) => `<option value="${esc(s)}">${esc(STATES[s] || s)}</option>`).join("");
+    $("#state").value = state.loc.state;
+    const counts = cityCounts(state.loc.state);
+    $("#city").innerHTML = Object.keys(counts).sort().map((c) => `<option value="${esc(c)}">${esc(c)} (${counts[c]})</option>`).join("");
+    $("#city").value = state.loc.city;
+    $("#add-city").innerHTML = free.summary ? "" : `Somewhere else? <a href="${repo}#adding-a-city" target="_blank" rel="noopener">Add a city</a>`;
+  }
+
+  async function freeEvents(st) {
+    if (!free.summary?.states?.[st]) return [];
+    if (!free.byState[st]) {
+      const j = await fetch(`data/free/${st}.json`, { cache: "no-store" }).then((r) => (r.ok ? r.json() : { events: [] }));
+      free.byState[st] = j.events || [];
+    }
+    return free.byState[st];
+  }
+
+  const toks = (s) => new Set(String(s).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter((w) => w.length > 2 && !/^(the|and|vs|tour|live|arena|stadium|center|theater|theatre|hall)$/.test(w)));
+  const overlap = (a, b) => { let n = 0; for (const x of a) if (b.has(x)) n++; return n / Math.max(1, Math.min(a.size, b.size)); };
+  function seatMatch(e) {
+    return state.index.events.find((s) => s.city === e.c && String(s.date).slice(0, 10) === e.d &&
+      (overlap(toks(s.name), toks(e.n)) >= 0.5 || overlap(toks(s.venue), toks(e.v)) >= 0.5));
+  }
+
+  // ---------- City list view ----------
+  async function showList() {
+    state.view = "list";
+    pref.set(state.loc);
+    renderLocation();
+    const u = new URL(location);
+    u.searchParams.set("state", state.loc.state); u.searchParams.set("city", state.loc.city); u.searchParams.delete("event");
+    history.replaceState(null, "", u);
+    $("#detail-view").hidden = true; $("#back").hidden = true; $("#sandbox-note").innerHTML = "";
+    $("#list-view").hidden = false;
+    $(".band").classList.add("compact");
+
+    const items = (await freeEvents(state.loc.state)).filter((e) => e.c === state.loc.city).map((e) => ({ ...e, seat: seatMatch(e) }));
+    const used = new Set(items.map((e) => e.seat?.id).filter(Boolean));
+    for (const s of state.index.events) {
+      if (s.state !== state.loc.state || s.city !== state.loc.city || used.has(s.id)) continue;
+      const m = String(s.date).match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/) || [];
+      items.push({ n: s.name, d: m[1], t: m[2], v: s.venue, c: s.city, k: "Other", seat: s });
+    }
+    items.sort((a, b) => (a.d + (a.t || "")).localeCompare(b.d + (b.t || "")));
+    state.cityItems = items;
+
+    document.title = `Events in ${state.loc.city}, ${state.loc.state}: Ticket Prices`;
+    $("#event-title").textContent = state.loc.city;
+    const days = free.summary?.days;
+    $("#event-meta").innerHTML = [
+      `<span><b>${items.length} upcoming event${items.length === 1 ? "" : "s"}</b>${days ? ` in the next ${days} days` : ""}</span>`,
+      free.summary && `<span>Prices from ${[free.summary.sources.seatgeek && "SeatGeek", free.summary.sources.ticketmaster && "Ticketmaster"].filter(Boolean).join(" and ")}, updated ${esc(fmtDate(free.summary.updatedAt, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</span>`,
+    ].filter(Boolean).join("");
+    $("#list-notice").innerHTML = free.summary ? "" :
+      `<div class="notice" style="margin-top:16px"><p><b>Only events captured seat-by-seat are listed.</b> Add the free Ticketmaster and SeatGeek keys to the repo to list every upcoming event in every city. The README explains how.</p></div>`;
+    list.limit = 50; $("#q").value = list.q;
+    renderListControls(); renderList(); renderFooter();
+  }
+
+  function listFiltered() {
+    const q = list.q.trim().toLowerCase();
+    const end = list.days ? new Date(Date.now() + list.days * 864e5).toISOString().slice(0, 10) : "9999";
+    const low = (e) => Math.min(e.sg?.lo ?? Infinity, e.tm?.mn ?? Infinity, e.seat?.getInPrice ?? Infinity);
+    const out = state.cityItems.filter((e) =>
+      (!q || `${e.n} ${e.v}`.toLowerCase().includes(q)) &&
+      (!list.cats.size || list.cats.has(e.k)) && e.d <= end);
+    if (list.sort === "price") out.sort((a, b) => low(a) - low(b));
+    return out;
+  }
+
+  function renderListControls() {
+    const counts = {};
+    for (const e of state.cityItems) counts[e.k] = (counts[e.k] || 0) + 1;
+    for (const k of [...list.cats]) if (!counts[k]) list.cats.delete(k);
+    $("#cats").innerHTML = ["Concerts", "Sports", "Theater & comedy", "Other"].filter((k) => counts[k])
+      .map((k) => `<button type="button" class="chip" data-cat="${esc(k)}" aria-pressed="${list.cats.has(k)}">${esc(k)}<span class="n">${counts[k]}</span></button>`).join("");
+    $("#when").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", Number(b.dataset.days) === list.days));
+    $("#list-sort").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.sort === list.sort));
+  }
+
+  function renderList() {
+    const rows = listFiltered();
+    const shown = rows.slice(0, list.limit);
+    const dollars = (n) => (n == null ? "" : money(n));
+    $("#ev-list").innerHTML = shown.length ? shown.map((e) => {
+      const dt = `${e.d}T${e.t || "00:00"}`;
+      const sg = e.sg ? `<div class="src"><span class="who">SeatGeek</span>
+          ${e.sg.lo ? `<span class="p">${dollars(e.sg.lo)}</span> lowest listed` : "No listings yet"}
+          ${e.sg.md ? `<br>median ${dollars(e.sg.md)}` : ""}${e.sg.lc ? `, ${e.sg.lc} listings` : ""}
+          <br><a href="${esc(e.sg.u)}" target="_blank" rel="noopener">Open SeatGeek</a></div>`
+        : `<div class="src none"><span class="who">SeatGeek</span>Not listed</div>`;
+      const st = { offsale: "Off sale", postponed: "Postponed", rescheduled: "Rescheduled" }[e.tm?.st] || "";
+      const tm = e.tm ? `<div class="src"><span class="who">Ticketmaster</span>
+          ${e.tm.mn ? `<span class="p">${dollars(e.tm.mn)}${e.tm.mx && e.tm.mx !== e.tm.mn ? `–${dollars(e.tm.mx)}` : ""}</span> face value` : "No price posted"}
+          ${st ? `<br>${st}` : ""}
+          <br><a href="${esc(e.tm.u)}" target="_blank" rel="noopener">Open Ticketmaster</a></div>`
+        : `<div class="src none"><span class="who">Ticketmaster</span>Not listed</div>`;
+      const seat = e.seat ? `<button type="button" class="seats-btn" data-event="${esc(e.seat.id)}">Best seats on ${e.seat.markets.length} marketplaces</button>` : "";
+      return `<article class="ev">
+        <div class="ev-date"><span class="m">${esc(localDate(dt, { month: "short" }))}</span><span class="dd">${esc(localDate(dt, { day: "numeric" }))}</span><span class="w">${esc(localDate(dt, { weekday: "short" }))}${e.t ? ` ${esc(localDate(dt, { hour: "numeric", minute: "2-digit" }))}` : ""}</span></div>
+        <div><h4 class="ev-name">${esc(e.n)}</h4><div class="ev-sub">${esc(e.v)}<span class="tag">${esc(e.k)}</span></div>${seat}</div>
+        ${sg}${tm}
+      </article>`;
+    }).join("") : `<div class="empty">No events match. Clear the search or pick a wider date range.</div>`;
+    $("#list-count").textContent = rows.length ? `Showing ${shown.length} of ${rows.length}. Ticketmaster shows face value before fees; SeatGeek shows the lowest listed price.` : "";
+    $("#more").hidden = rows.length <= list.limit;
   }
 
   // ---------- Rendering: event ----------
@@ -741,8 +910,13 @@
   }
 
   function renderFooter() {
+    if (state.view === "list") {
+      $("#footer").innerHTML = `<p>Events and prices from the Ticketmaster Discovery API and the SeatGeek Platform API. Ticketmaster shows face value before fees. SeatGeek shows the lowest listed resale price. Events marked "Best seats" also have every listing from six marketplaces, compared seat by seat through Tickets.dev.</p>
+        <p>Prices move fast, so confirm on the marketplace before you buy.</p>`;
+      return;
+    }
     $("#footer").innerHTML = `<p>Listings from SeatGeek, StubHub, TickPick, Ticketmaster, Vivid Seats and Gametime via the Tickets.dev capture API. Prices include fees and exclude sales tax. They move fast, so confirm on the marketplace before you buy.</p>
-      <p>Seat quality is an estimate from section, row and listing notes; it doesn't know every venue's sightlines. Data updated ${esc(fmtDate(state.index.updatedAt, { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }))}.</p>`;
+      <p>Seat quality is an estimate from section, row and listing notes; it doesn't know every venue's sightlines. Seat-by-seat data updated ${esc(fmtDate(state.index.updatedAt || Date.now(), { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }))}.</p>`;
   }
 
   function update() {
@@ -752,14 +926,24 @@
     renderPicks(rows); renderMarkets(); renderChart(rows); renderTable(rows);
   }
 
-  function syncUrl() {
+  async function showDetail(id) {
+    const ev = state.index.events.find((e) => e.id === id);
+    if (!ev) return showList();
+    state.view = "detail"; state.eventId = id;
+    state.loc = { state: ev.state, city: ev.city };
+    renderLocation();
     const u = new URL(location);
-    u.searchParams.set("state", state.loc.state); u.searchParams.set("city", state.loc.city); u.searchParams.set("event", state.eventId);
+    u.searchParams.set("state", ev.state); u.searchParams.set("city", ev.city); u.searchParams.set("event", id);
     history.replaceState(null, "", u);
+    $("#list-view").hidden = true; $("#detail-view").hidden = false;
+    $(".band").classList.remove("compact");
+    const back = $("#back");
+    back.textContent = `Back to all events in ${ev.city}`; back.hidden = false;
+    window.scrollTo(0, 0);
+    await loadEvent();
   }
 
   async function loadEvent() {
-    renderLocation(); syncUrl();
     const data = await fetch(`data/events/${encodeURIComponent(state.eventId)}.json`, { cache: "no-store" }).then((r) => {
       if (!r.ok) throw new Error(`Couldn't load the listings for this event (${r.status}).`);
       return r.json();
@@ -779,9 +963,19 @@
   }
 
   function bind() {
-    $("#state").addEventListener("change", (e) => { setLocation(e.target.value, ""); loadEvent().catch(fail); });
-    $("#city").addEventListener("change", (e) => { setLocation(state.loc.state, e.target.value); loadEvent().catch(fail); });
-    $("#event-rail").addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (!b) return; state.eventId = b.dataset.id; loadEvent().catch(fail); });
+    $("#state").addEventListener("change", (e) => { setLocation(e.target.value, ""); list.cats.clear(); showList().catch(fail); });
+    $("#city").addEventListener("change", (e) => { setLocation(state.loc.state, e.target.value); list.cats.clear(); showList().catch(fail); });
+    $("#back").addEventListener("click", (e) => { e.preventDefault(); showList().catch(fail); });
+    $("#ev-list").addEventListener("click", (e) => { const b = e.target.closest("button[data-event]"); if (b) showDetail(b.dataset.event).catch(fail); });
+    let qt; $("#q").addEventListener("input", (e) => { clearTimeout(qt); qt = setTimeout(() => { list.q = e.target.value; list.limit = 50; renderList(); }, 120); });
+    $("#cats").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      const k = b.dataset.cat; list.cats.has(k) ? list.cats.delete(k) : list.cats.add(k);
+      b.setAttribute("aria-pressed", list.cats.has(k)); list.limit = 50; renderList();
+    });
+    $("#when").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; list.days = +b.dataset.days; list.limit = 50; renderListControls(); renderList(); });
+    $("#list-sort").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; list.sort = b.dataset.sort; renderListControls(); renderList(); });
+    $("#more").addEventListener("click", () => { list.limit += 50; renderList(); });
     $("#qty").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; state.qty = +b.dataset.q; renderControls(); update(); });
     $("#max-price").addEventListener("input", (e) => { state.maxPrice = +e.target.value; update(); });
     const chipToggle = (set, attr) => (e) => {
@@ -809,26 +1003,30 @@
   }
 
   function fail(err) {
+    console.error(err);
     $("#event-title").textContent = "No events yet";
     $("#where").hidden = true;
+    $("#detail-view").hidden = false; $("#list-view").hidden = true;
+    $(".band").classList.remove("compact");
     $("#event-body").hidden = true;
-    $("#picks").innerHTML = `<div class="notice"><p><b>${esc(err.message)}</b></p><p>Open the <a href="${repo}/actions/workflows/capture.yml">Capture workflow</a>, choose Run workflow, and enter a city and state.</p></div>`;
+    $("#picks").innerHTML = `<div class="notice"><p><b>${esc(err.message)}</b></p><p>See the <a href="${repo}#readme">README</a> for how to load events.</p></div>`;
   }
 
   async function init() {
     renderWeights(); bind();
     try {
-      const index = await fetch("data/index.json", { cache: "no-store" }).then((r) => {
-        if (!r.ok) throw new Error("No events have been captured yet.");
-        return r.json();
-      });
-      if (!index.events?.length) throw new Error("No events have been captured yet.");
-      state.index = index;
+      const [index, summary] = await Promise.all([
+        fetch("data/index.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : { events: [] })),
+        fetch("data/free/states.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+      ]);
+      state.index = { events: [], ...index };
+      free.summary = summary && Object.keys(summary.states || {}).length ? summary : null;
+      if (!state.index.events.length && !free.summary) throw new Error("No events have been loaded yet.");
       const p = new URL(location).searchParams;
-      const want = index.events.find((e) => e.id === p.get("event"));
-      state.eventId = want?.id || "";
-      setLocation(want?.state || p.get("state"), want?.city || p.get("city"));
-      await loadEvent();
+      if (state.index.events.some((e) => e.id === p.get("event"))) return await showDetail(p.get("event"));
+      const saved = pref.get() || {};
+      setLocation(p.get("state") || saved.state, p.get("city") || saved.city);
+      await showList();
     } catch (e) { fail(e); }
   }
   init();

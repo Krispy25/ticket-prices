@@ -1,0 +1,57 @@
+name: Build and deploy site
+
+# Rebuilds the free event listings (Ticketmaster + SeatGeek, no credits) and publishes
+# the site to GitHub Pages. The listings live only in the deployed site, not in the repo,
+# so the repo doesn't grow with every refresh.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Capture ticket prices"]
+    types: [completed]
+  schedule:
+    - cron: "23 11,23 * * *"   # twice a day
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Fetch every upcoming event (free APIs)
+        env:
+          TM_API_KEY: ${{ secrets.TM_API_KEY }}
+          SEATGEEK_CLIENT_ID: ${{ secrets.SEATGEEK_CLIENT_ID }}
+          DAYS: "60"
+        run: node scripts/free-events.mjs
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp index.html .nojekyll _site/
+          cp -r data _site/data
+          du -sh _site/data
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
