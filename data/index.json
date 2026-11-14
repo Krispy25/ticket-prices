@@ -1,0 +1,56 @@
+{
+  "events": [
+    {
+      "id": "01M0FVJHZRFPS6Y3XM5M0BQ1RH",
+      "name": "The Eagles",
+      "date": "2026-12-11T20:30:00-08:00",
+      "dateUtc": "2026-12-12T04:30:00+00:00",
+      "venue": "Sphere at The Venetian Resort",
+      "city": "Las Vegas",
+      "state": "NV",
+      "markets": [
+        {
+          "marketplace": "seatgeek",
+          "url": "https://seatgeek.com/eagles-tickets/las-vegas-nevada-sphere-2026-12-11-8-30-pm/concert/18355052",
+          "listingCount": 4,
+          "getInPrice": 402
+        },
+        {
+          "marketplace": "stubhub",
+          "url": "https://www.stubhub.com/the-eagles-las-vegas-tickets-12-11-2026/event/161551904",
+          "listingCount": 4,
+          "getInPrice": 434.76
+        },
+        {
+          "marketplace": "tickpick",
+          "url": "https://www.tickpick.com/buy-the-eagles-tickets-sphere-12-11-26-8pm/8113666/",
+          "listingCount": 4,
+          "getInPrice": 414
+        },
+        {
+          "marketplace": "ticketmaster",
+          "url": "https://www.ticketmaster.com/eagles-live-at-sphere-las-vegas-nevada-12-11-2026/event/17006483D6FAFC60",
+          "listingCount": 4,
+          "getInPrice": 303.08
+        },
+        {
+          "marketplace": "vividseats",
+          "url": "https://www.vividseats.com/the-eagles-tickets-las-vegas-sphere-at-the-venetian-resort-12-11-2026--concerts-adult-contemporary/production/7256971",
+          "listingCount": 4,
+          "getInPrice": 406.22
+        },
+        {
+          "marketplace": "gametime",
+          "url": "https://gametime.co/concert/the-eagles-tickets/12-11-2026-las-vegas-nv-sphere/events/6a4d17db36420619f2010560",
+          "listingCount": 4,
+          "getInPrice": 410
+        }
+      ],
+      "listingCount": 24,
+      "getInPrice": 303.08,
+      "capturedAt": "2026-11-14T17:31:26.521Z",
+      "sandbox": true
+    }
+  ],
+  "updatedAt": "2026-11-14T17:31:26.521Z"
+}

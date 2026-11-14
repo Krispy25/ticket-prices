@@ -1,0 +1,90 @@
+name: Capture ticket prices
+
+# Actions tab → "Capture ticket prices" → Run workflow.
+# Each live capture costs one Tickets.dev credit: one event on six marketplaces is
+# up to 6 credits, so "max events" = 3 is up to 18. Use "dry run" first to see the
+# list and the cost. Without a TICKETS_DEV_KEY secret the free sandbox key is used
+# and you get sample data.
+on:
+  workflow_dispatch:
+    inputs:
+      city:
+        description: "City, e.g. Nashville"
+        required: false
+      state:
+        description: "State, e.g. TN or Tennessee"
+        required: false
+      query:
+        description: "Optional: performer, team or venue to narrow the search"
+        required: false
+      event:
+        description: "Optional: one event instead (marketplace URL, Tickets.dev ID or name)"
+        required: false
+      from:
+        description: "Earliest date, YYYY-MM-DD (blank = today)"
+        required: false
+      to:
+        description: "Latest date, YYYY-MM-DD (blank = no limit)"
+        required: false
+      max_events:
+        description: "Most events to capture this run"
+        required: false
+        default: "3"
+      marketplaces:
+        description: "Marketplaces to capture"
+        required: false
+        default: "seatgeek,stubhub,tickpick,ticketmaster,vividseats,gametime"
+      dry_run:
+        description: "Dry run: list matching events and credit cost, capture nothing"
+        type: boolean
+        default: false
+      refresh:
+        description: "Refresh prices for every event already on the site (ignores city/state)"
+        type: boolean
+        default: false
+  # Uncomment to refresh every event already on the site on a schedule (spends credits).
+  # schedule:
+  #   - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Capture
+        env:
+          TICKETS_DEV_KEY: ${{ secrets.TICKETS_DEV_KEY }}
+          CITY: ${{ inputs.city }}
+          STATE: ${{ inputs.state }}
+          QUERY: ${{ inputs.query }}
+          EVENT: ${{ inputs.event }}
+          FROM: ${{ inputs.from }}
+          TO: ${{ inputs.to }}
+          MAX_EVENTS: ${{ inputs.max_events }}
+          MARKETPLACES: ${{ inputs.marketplaces }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          REFRESH: ${{ github.event_name == 'schedule' || inputs.refresh }}
+        run: node scripts/capture.mjs
+      - name: Commit new data
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Capture prices: ${{ inputs.city || inputs.event || 'refresh' }} $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase
+            git push
+          fi

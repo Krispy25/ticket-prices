@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticket Prices: best seat for the money</title>
+<meta name="description" content="Pick a city, pick an event, and see the best seats for the money across SeatGeek, StubHub, TickPick, Ticketmaster, Vivid Seats and Gametime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --navy: #14213d;
+    --navy-2: #1d2d52;
+    --navy-3: #34466f;
+    --signal: #ffc93c;
+    --signal-ink: #3a2c00;
+    --bg: #eef1f5;
+    --card: #ffffff;
+    --ink: #1b1f2a;
+    --ink-2: #4a5263;
+    --ink-3: #6b7385;
+    --line: #d9dee7;
+    --line-2: #e8ebf1;
+    --warn: #a14a00;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --focus: #2a78d6;
+    --radius-stub: 14px;
+    --radius-ui: 8px;
+    --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #0a101d;
+      --card: #172036;
+      --ink: #eef1f6;
+      --ink-2: #c3c9d6;
+      --ink-3: #98a1b3;
+      --line: #2a3654;
+      --line-2: #222c45;
+      --warn: #f0a35a;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --focus: #6da7ec;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--body); font-variant-numeric: tabular-nums; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Band: location, events, title ---------- */
+  .band { background: var(--navy); color: #fff; padding: 24px 0 96px; }
+  .brand { font: 700 20px/1 var(--display); letter-spacing: .02em; display: flex; align-items: center; gap: 10px; }
+  .where {
+    margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px;
+    font: 600 clamp(26px, 3.6vw, 36px)/1.15 var(--display); color: #c9d2e6;
+  }
+  .where select {
+    font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); color: var(--signal); background-color: transparent;
+    border: 0; border-bottom: 2px solid var(--signal); border-radius: 0; padding: 0 30px 2px 0; cursor: pointer;
+    appearance: none; max-width: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M1 1l7 7 7-7' fill='none' stroke='%23ffc93c' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 4px center;
+  }
+  .where select option { color: var(--ink); background: var(--card); font: 500 16px var(--body); }
+  .add-city { font: 500 14px var(--body); color: #c9d2e6; margin-left: 4px; }
+  .add-city a { color: #fff; }
+
+  .event-rail { margin-top: 18px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+  .event-btn {
+    flex: none; text-align: left; cursor: pointer; color: #fff; background: var(--navy-2);
+    border: 1px solid var(--navy-3); border-radius: var(--radius-ui); padding: 10px 14px; min-width: 200px; max-width: 260px;
+    font: 400 13px/1.35 var(--body);
+  }
+  .event-btn b { display: block; font: 700 19px/1.1 var(--display); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .event-btn span { color: #c9d2e6; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .event-btn[aria-pressed="true"] { background: #fff; color: var(--navy); border-color: #fff; }
+  .event-btn[aria-pressed="true"] span { color: var(--ink-2); }
+
+  .event-title { font: 800 clamp(48px, 9vw, 108px)/.92 var(--display); letter-spacing: -.01em; margin: 34px 0 12px; text-wrap: balance; }
+  .event-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: #c9d2e6; font-size: 15px; }
+  .event-meta b { color: #fff; font-weight: 600; }
+  .sandbox-note {
+    margin-top: 16px; display: inline-block; background: rgba(255,201,60,.12); border: 1px solid rgba(255,201,60,.45); color: #ffe4a1;
+    padding: 8px 12px; border-radius: var(--radius-ui); font-size: 14px; max-width: 74ch;
+  }
+
+  /* ---------- Picks (ticket stubs) ---------- */
+  .picks { margin-top: -72px; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; }
+  .side-picks { display: grid; gap: 20px; }
+  .stub {
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    background: var(--card); color: var(--ink); border-radius: var(--radius-stub);
+    box-shadow: 0 1px 0 var(--line), 0 12px 32px -18px rgba(20,33,61,.45); overflow: hidden;
+  }
+  .stub-main { padding: 22px 24px 20px; min-width: 0; }
+  .stub-tear {
+    min-width: 160px; padding: 22px 20px; border-left: 2px dashed var(--line); position: relative;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+  }
+  .stub-tear::before, .stub-tear::after { content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg); }
+  .stub-tear::before { top: -10px; }
+  .stub-tear::after { bottom: -10px; }
+  .stub h2 { font: 600 15px/1.2 var(--body); margin: 0 0 14px; color: var(--ink-2); }
+  .seat-line { display: flex; gap: 22px; align-items: flex-end; flex-wrap: wrap; }
+  .seat-cell span { display: block; font-size: 13px; color: var(--ink-3); margin-bottom: 2px; }
+  .seat-cell strong { font: 700 34px/1 var(--display); letter-spacing: .01em; }
+  .stub-why { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+  .stub-why li { display: flex; gap: 8px; }
+  .stub-why li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .5; margin-top: 8px; flex: none; }
+  .market-name { font-weight: 700; font-size: 14px; }
+  .price-big { font: 700 32px/1 var(--display); margin-top: 4px; }
+  .price-sub { font-size: 13px; color: var(--ink-3); margin-top: 4px; }
+  .buy {
+    display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+    font: 600 14px var(--body); padding: 9px 14px; border-radius: var(--radius-ui);
+    background: var(--navy); color: #fff; margin-top: 14px; white-space: nowrap;
+  }
+  .buy:hover { background: var(--navy-2); }
+  @media (prefers-color-scheme: dark) {
+    .stub:not(.hero) .buy { background: var(--signal); color: var(--signal-ink); }
+    .stub:not(.hero) .buy:hover { background: #ffd666; }
+  }
+  .stub.hero { background: var(--signal); color: var(--signal-ink); }
+  .stub.hero .stub-main { padding: 28px 30px 26px; }
+  .stub.hero .stub-tear { border-left-color: rgba(58,44,0,.35); min-width: 210px; padding: 28px 26px; }
+  .stub.hero h2 { color: var(--signal-ink); font-size: 17px; }
+  .stub.hero .seat-cell span, .stub.hero .price-sub, .stub.hero .stub-why { color: #5a4600; }
+  .stub.hero .seat-cell strong { font-size: clamp(56px, 7vw, 84px); }
+  .stub.hero .price-big { font-size: 56px; }
+  .score-pill { display: inline-flex; gap: 4px; font-weight: 700; font-size: 13px; background: var(--navy); color: var(--signal); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
+
+  /* ---------- Sections ---------- */
+  section { margin-top: 40px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .section-head h3 { font: 700 30px/1.1 var(--display); margin: 0; letter-spacing: .01em; }
+  .section-head p { margin: 0; color: var(--ink-3); font-size: 14px; }
+  .panel { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius-ui); padding: 18px 20px; }
+
+  /* Marketplace comparison: one bar per marketplace = its lowest all-in price */
+  .markets { display: grid; gap: 2px; }
+  .mrow { display: grid; grid-template-columns: 120px minmax(0, 1fr) 150px 80px 140px; gap: 14px; align-items: center; padding: 10px 4px; border-bottom: 1px solid var(--line-2); font-size: 14px; }
+  .mrow:last-child { border-bottom: 0; }
+  .mrow.head { color: var(--ink-3); font-size: 13px; font-weight: 600; padding-top: 0; }
+  .mrow .mname { font-weight: 700; }
+  .mbar { height: 12px; background: var(--line-2); border-radius: 4px; position: relative; }
+  .mbar b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; }
+  .mrow .cheapest { font-size: 12px; font-weight: 600; color: var(--ink); margin-right: 8px; border: 1px solid var(--ink); border-radius: 999px; padding: 1px 7px; }
+  .mrow .num { text-align: right; }
+  .mrow a { font-weight: 600; font-size: 13px; }
+  .mrow.missing { color: var(--ink-3); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: end; }
+  .control .lbl, .control > label:not(.toggle) { display: block; font-size: 13px; color: var(--ink-3); margin-bottom: 6px; font-weight: 500; }
+  .qty { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-ui); overflow: hidden; }
+  .qty button { font: 600 15px var(--body); background: transparent; color: var(--ink); border: 0; width: 38px; height: 36px; cursor: pointer; }
+  .qty button + button { border-left: 1px solid var(--line); }
+  .qty button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+  @media (prefers-color-scheme: dark) { .qty button[aria-pressed="true"] { background: var(--signal); color: var(--signal-ink); } }
+  .range-row { display: flex; align-items: center; gap: 12px; }
+  .range-row input { width: 190px; accent-color: var(--series-1); }
+  .range-row output { font-weight: 600; min-width: 64px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font: 500 14px var(--body); padding: 7px 12px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink-2); }
+  .chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--line-2); font-weight: 600; }
+  .chip .n { color: var(--ink-3); font-weight: 400; margin-left: 4px; }
+  .toggles { display: grid; gap: 2px; }
+  .toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+  .toggle input { width: 18px; height: 18px; accent-color: var(--series-1); }
+  .result-count { margin-left: auto; font-size: 14px; color: var(--ink-3); align-self: center; }
+
+  .two-col { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 20px; }
+  .legend { display: flex; gap: 18px; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .chart-box { position: relative; }
+  #chart { width: 100%; height: 340px; display: block; overflow: visible; }
+  #chart .grid line { stroke: var(--line-2); }
+  #chart .axis text { fill: var(--ink-3); font-size: 12px; font-family: var(--body); }
+  #chart .axis-title { fill: var(--ink-2); font-size: 12px; font-weight: 600; }
+  #chart .dot { stroke: var(--card); stroke-width: 2; cursor: pointer; }
+  #chart .dot:hover, #chart .dot:focus { stroke: var(--ink); outline: none; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--card); font-size: 13px; line-height: 1.4; padding: 8px 10px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, calc(-100% - 12px)); opacity: 0; }
+  .tip.on { opacity: 1; }
+  .method h4 { font: 700 22px/1.1 var(--display); margin: 0 0 10px; }
+  .method p, .method li { font-size: 14px; color: var(--ink-2); max-width: 60ch; }
+  .method ul { padding-left: 18px; margin: 8px 0 0; }
+  .method li { margin: 5px 0; }
+  .weights { display: grid; gap: 8px; margin: 12px 0; }
+  .weight { display: grid; grid-template-columns: 96px 1fr 38px; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
+  .weight .bar { height: 8px; background: var(--line-2); border-radius: 4px; overflow: hidden; }
+  .weight .bar b { display: block; height: 100%; background: var(--series-1); border-radius: 4px; }
+
+  .table-wrap { background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius-ui); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 11px 14px; text-align: left; white-space: nowrap; }
+  th { font-weight: 600; color: var(--ink-3); font-size: 13px; border-bottom: 1px solid var(--line); background: var(--card); }
+  th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+  th button:focus-visible { outline: 3px solid var(--focus); border-radius: 3px; }
+  th[aria-sort="ascending"] button::after { content: "▲"; font-size: 9px; }
+  th[aria-sort="descending"] button::after { content: "▼"; font-size: 9px; }
+  td { border-bottom: 1px solid var(--line-2); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--line-2); }
+  td.num, th.num { text-align: right; }
+  .sec { font: 700 20px/1 var(--display); }
+  .sub { font-size: 12px; color: var(--ink-3); display: block; margin-top: 3px; }
+  .value-cell { display: flex; align-items: center; gap: 8px; }
+  .value-bar { width: 54px; height: 6px; background: var(--line-2); border-radius: 3px; overflow: hidden; }
+  .value-bar b { display: block; height: 100%; background: var(--series-1); border-radius: 3px; }
+  .tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); }
+  .tag.front { border-color: var(--series-2); color: var(--series-2); font-weight: 600; }
+  .tag.bad { border-color: var(--warn); color: var(--warn); }
+  .elsewhere { font-size: 12px; color: var(--warn); display: block; margin-top: 3px; }
+  .muted { color: var(--ink-3); }
+  .show-all { display: block; width: 100%; padding: 12px; font: 600 14px var(--body); color: var(--ink); background: transparent; border: 0; border-top: 1px solid var(--line-2); cursor: pointer; }
+  .show-all:hover { background: var(--line-2); }
+  .empty { padding: 36px 20px; text-align: center; color: var(--ink-2); white-space: normal; }
+  .empty button { margin-top: 10px; font: 600 14px var(--body); padding: 8px 14px; border-radius: var(--radius-ui); border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+  .notice { background: var(--card); border-left: 4px solid var(--warn); padding: 16px 18px; border-radius: var(--radius-ui); }
+  .notice p { margin: 4px 0; max-width: 70ch; }
+
+  footer { margin: 56px 0 40px; color: var(--ink-3); font-size: 13px; }
+  footer p { margin: 4px 0; max-width: 80ch; }
+
+  @media (max-width: 900px) {
+    .picks, .two-col { grid-template-columns: 1fr; }
+    .mrow { grid-template-columns: 96px minmax(0, 1fr) 120px; }
+    .mrow > :nth-child(4), .mrow > :nth-child(5) { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .stub, .stub.hero { grid-template-columns: 1fr; }
+    .stub-tear, .stub.hero .stub-tear { min-width: 0; border-left: 0; border-top: 2px dashed var(--line); flex-direction: row; align-items: center; gap: 12px; }
+    .stub.hero .stub-tear { border-top-color: rgba(58,44,0,.35); }
+    .stub-tear::before, .stub-tear::after { display: none; }
+    .buy { margin-top: 0; }
+    .range-row input { width: 150px; }
+    .result-count { margin-left: 0; }
+    .mrow { grid-template-columns: 84px minmax(0, 1fr) 110px; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="5" width="24" height="16" rx="3" fill="#ffc93c"/><circle cx="17" cy="5" r="2.5" fill="#14213d"/><circle cx="17" cy="21" r="2.5" fill="#14213d"/><path d="M17 8v10" stroke="#14213d" stroke-width="1.5" stroke-dasharray="2 2"/></svg>
+      Ticket Prices
+    </div>
+
+    <div class="where" id="where">
+      <span>Events in</span>
+      <select id="city" aria-label="City"></select>
+      <select id="state" aria-label="State"></select>
+      <span class="add-city" id="add-city"></span>
+    </div>
+    <div class="event-rail" id="event-rail" role="group" aria-label="Events"></div>
+
+    <h1 class="event-title" id="event-title">Loading…</h1>
+    <div class="event-meta" id="event-meta"></div>
+    <div id="sandbox-note"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="picks" id="picks"></div>
+
+  <div id="event-body">
+    <section aria-labelledby="mk-h">
+      <div class="section-head">
+        <h3 id="mk-h">Lowest price on each marketplace</h3>
+        <p>All-in per ticket with fees, before tax, for the tickets you need.</p>
+      </div>
+      <div class="panel markets" id="markets"></div>
+    </section>
+
+    <section aria-labelledby="filters-h">
+      <div class="section-head">
+        <h3 id="filters-h">Narrow it down</h3>
+        <p>Picks, chart and table all follow these filters.</p>
+      </div>
+      <div class="panel controls">
+        <div class="control">
+          <span class="lbl" id="qty-lbl">Tickets needed</span>
+          <div class="qty" role="group" aria-labelledby="qty-lbl" id="qty"></div>
+        </div>
+        <div class="control">
+          <label for="max-price">Max per ticket</label>
+          <div class="range-row"><input type="range" id="max-price"><output id="max-price-out" for="max-price"></output></div>
+        </div>
+        <div class="control">
+          <span class="lbl" id="mkt-lbl">Marketplaces</span>
+          <div class="chips" role="group" aria-labelledby="mkt-lbl" id="mkt-chips"></div>
+        </div>
+        <div class="control">
+          <span class="lbl" id="lvl-lbl">Seating level</span>
+          <div class="chips" role="group" aria-labelledby="lvl-lbl" id="levels"></div>
+        </div>
+        <div class="control toggles">
+          <label class="toggle"><input type="checkbox" id="hide-limited"> Hide limited or obstructed views</label>
+          <label class="toggle"><input type="checkbox" id="show-accessible"> Include accessible seating</label>
+        </div>
+        <div class="result-count" id="result-count" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="chart-h">
+      <div class="two-col">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:6px"><h3 id="chart-h">Seat quality vs. price</h3></div>
+          <div class="legend">
+            <span><i style="background:var(--series-1)"></i>Listing</span>
+            <span><i style="background:var(--series-2)"></i>Best-value line: nothing cheaper is better</span>
+          </div>
+          <div class="chart-box">
+            <svg id="chart" role="img" aria-label="Scatter plot of seat quality against price per ticket"></svg>
+            <div class="tip" id="tip"></div>
+          </div>
+        </div>
+        <div class="panel method">
+          <h4>How the value score works</h4>
+          <p>Each listing gets a seat-quality score from 0 to 100, then is ranked against every other listing for the event, on all marketplaces.</p>
+          <div class="weights" id="weights"></div>
+          <ul>
+            <li>Quality comes from the seating level (floor and lower bowl rank highest) and how close the row is to the front. Limited or obstructed views lose 20 points; front rows and aisles gain a little.</li>
+            <li>Price is the all-in price per ticket with fees, before tax, so every marketplace compares fairly.</li>
+            <li>Seats on the orange line are the safe picks: no other listing is both better and cheaper.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="table-h">
+      <div class="section-head"><h3 id="table-h">Every listing</h3><p>Select a column to sort.</p></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr id="thead"></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <button type="button" class="show-all" id="show-all" hidden></button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="footer"></footer>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+
+  const MARKETS = {
+    seatgeek: "SeatGeek", stubhub: "StubHub", tickpick: "TickPick",
+    ticketmaster: "Ticketmaster", vividseats: "Vivid Seats", gametime: "Gametime",
+  };
+  const STATES = { AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming" };
+  const W = { quality: 0.55, price: 0.45 };
+
+  const state = {
+    index: null, data: null, listings: [], loc: { state: "", city: "" }, eventId: "",
+    qty: 1, maxPrice: Infinity, markets: new Set(), levels: new Set(),
+    hideLimited: false, showAccessible: false, sort: { key: "value", dir: "desc" }, showAll: false,
+  };
+
+  const money = (n, dp = 0) => new Intl.NumberFormat("en-US", { style: "currency", currency: state.data?.currency || "USD", maximumFractionDigits: dp, minimumFractionDigits: dp }).format(n);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmtDate = (iso, opts) => { try { return new Date(iso).toLocaleString("en-US", opts); } catch { return ""; } };
+  // eventDateLocal carries the venue's offset; show the venue's own wall-clock time.
+  const localDate = (iso, opts) => {
+    const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+    if (!m) return "";
+    return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5])).toLocaleString("en-US", { timeZone: "UTC", ...opts });
+  };
+
+  // Link to the repo's Capture workflow, used for "Add a city".
+  const repo = (() => {
+    const h = location.hostname;
+    if (h.endsWith(".github.io")) return `https://github.com/${h.split(".")[0]}/${location.pathname.split("/")[1]}`;
+    return "https://github.com/Krispy25/ticket-prices";
+  })();
+
+  // ---------- Seat quality model ----------
+  const LEVELS = [
+    { key: "floor", name: "Floor / pit" },
+    { key: "lower", name: "Lower level" },
+    { key: "club", name: "Club / mezzanine" },
+    { key: "upper", name: "Upper level" },
+    { key: "other", name: "Other" },
+  ];
+  const LEVEL = Object.fromEntries(LEVELS.map((l) => [l.key, l]));
+
+  function levelOf(l) {
+    const s = `${l.section} ${l.group} ${l.ticketType}`.toLowerCase().replace(/_/g, " ");
+    if (/\b(floor|flr\w*|pit|general admission|field level|courtside|rinkside|standing)\b/.test(s)) return ["floor", 92];
+    if (/\b(suite|box|club|mezz\w*|loge|terrace|dress circle)\b/.test(s)) return ["club", 70];
+    if (/\b(upper|balcony|deck|grandstand|bleacher\w*)\b/.test(s)) return ["upper", 45];
+    if (/\b(lower|orchestra|plaza|stalls|main level)\b/.test(s)) return ["lower", 85];
+    const lvl = s.match(/\b([1-5])00 level\b/);
+    const n = lvl ? Number(lvl[1]) * 100 : Number((String(l.section).match(/\d+/) || [])[0]);
+    if (Number.isFinite(n) && n > 0) {
+      if (n < 100) return ["lower", 80];
+      const h = Math.floor(n / 100);
+      return h === 1 ? ["lower", 85] : h === 2 ? ["club", 68] : h === 3 ? ["upper", 52] : h === 4 ? ["upper", 42] : ["upper", 34];
+    }
+    return ["other", 58];
+  }
+
+  function rowNumber(row) {
+    const r = String(row || "").trim().toUpperCase();
+    if (!r || r === "ROW" || r === "GA") return null;
+    if (/^\d+$/.test(r)) return Number(r);
+    if (/^[A-Z]$/.test(r)) return r.charCodeAt(0) - 64;
+    if (/^([A-Z])\1$/.test(r)) return 26 + r.charCodeAt(0) - 64;
+    const m = r.match(/\d+/);
+    return m ? Number(m[0]) : null;
+  }
+
+  function enrich(l, market, sourceUrl) {
+    const text = `${l.listingNotes || ""} ${l.ticketType || ""}`.toLowerCase().replace(/_/g, " ");
+    const [level, base] = levelOf(l);
+    const rowNum = rowNumber(l.row);
+    const limited = /obstruct|limited view|partial view|restricted view|side view|behind (the )?stage|rear view/.test(text);
+    const accessible = /accessib|wheelchair|\bada\b|companion seat|mobility/.test(text);
+    const premium = /platinum|vip|package|hospitality|meet and greet/.test(text);
+    const front = /first row|front row/.test(text);
+    let q = base - (rowNum == null ? 6 : Math.min(rowNum, 40) / 40 * 16);
+    if (limited) q -= 20;
+    if (front) q += 6;
+    if (/\baisle\b/.test(text)) q += 2;
+    if (/clear view|unobstructed|full view/.test(text) && !limited) q += 2;
+    const secKey = String(l.section || "").toLowerCase().replace(/floor|flr/g, "f").replace(/[^a-z0-9]/g, "");
+    return {
+      ...l, market, sourceUrl,
+      uid: `${market}:${l.listingId || `${l.section}-${l.row}-${l.totalPrice}`}`,
+      totalPrice: +l.totalPrice, fee: +l.fee || 0, quantity: +l.quantity || 0,
+      level, rowNum, limited, accessible, premium,
+      q: Math.max(0, Math.min(100, Math.round(q))),
+      seatKey: `${secKey}|${String(l.row || "").toLowerCase()}`,
+    };
+  }
+
+  function canBuy(l, qty) {
+    const list = String(l.sellableQuantities || "").split(",").map((x) => Number(x.trim())).filter(Boolean);
+    return list.length ? list.includes(qty) : l.quantity >= qty;
+  }
+
+  function score(rows) {
+    if (!rows.length) return rows;
+    const qs = rows.map((r) => r.q), ps = rows.map((r) => r.totalPrice);
+    const qMin = Math.min(...qs), qMax = Math.max(...qs), pMin = Math.min(...ps), pMax = Math.max(...ps);
+    for (const r of rows) {
+      const qn = qMax === qMin ? 1 : (r.q - qMin) / (qMax - qMin);
+      const pn = pMax === pMin ? 1 : (pMax - r.totalPrice) / (pMax - pMin);
+      r.value = Math.round((W.quality * qn + W.price * pn) * 100);
+    }
+    const byPrice = [...rows].sort((a, b) => a.totalPrice - b.totalPrice || b.q - a.q);
+    let best = -1;
+    for (const r of byPrice) { r.frontier = r.q > best; if (r.frontier) best = r.q; }
+    // The same seats are often listed on several marketplaces: flag when another one is cheaper.
+    const bySeat = new Map();
+    for (const r of rows) {
+      if (r.rowNum == null) continue;
+      const cur = bySeat.get(r.seatKey);
+      if (!cur || r.totalPrice < cur.totalPrice) bySeat.set(r.seatKey, r);
+    }
+    for (const r of rows) {
+      const c = r.rowNum == null ? null : bySeat.get(r.seatKey);
+      r.cheaperElsewhere = c && c.market !== r.market && c.totalPrice < r.totalPrice - 0.5 ? c : null;
+    }
+    return rows;
+  }
+
+  function baseFilter(l, ignoreMarket) {
+    return canBuy(l, state.qty) &&
+      (ignoreMarket || state.markets.size === 0 || state.markets.has(l.market)) &&
+      (state.levels.size === 0 || state.levels.has(l.level)) &&
+      !(state.hideLimited && l.limited) &&
+      (state.showAccessible || !l.accessible);
+  }
+  const filtered = () => score(state.listings.filter((l) => baseFilter(l) && l.totalPrice <= state.maxPrice).map((l) => ({ ...l })));
+
+  // ---------- Location + event selection ----------
+  const eventsIn = (loc) => state.index.events.filter((e) => e.state === loc.state && e.city === loc.city);
+
+  function renderLocation() {
+    const evs = state.index.events;
+    const states = [...new Set(evs.map((e) => e.state))].sort((a, b) => (STATES[a] || a).localeCompare(STATES[b] || b));
+    $("#state").innerHTML = states.map((s) => `<option value="${esc(s)}">${esc(STATES[s] || s)}</option>`).join("");
+    $("#state").value = state.loc.state;
+    const cities = [...new Set(evs.filter((e) => e.state === state.loc.state).map((e) => e.city))].sort();
+    $("#city").innerHTML = cities.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+    $("#city").value = state.loc.city;
+    $("#add-city").innerHTML = `Somewhere else? <a href="${repo}/actions/workflows/capture.yml" target="_blank" rel="noopener">Add a city</a>`;
+
+    const list = eventsIn(state.loc);
+    $("#event-rail").innerHTML = list.map((e) => `<button type="button" class="event-btn" data-id="${esc(e.id)}" aria-pressed="${e.id === state.eventId}">
+        <b>${esc(e.name)}</b>
+        <span>${esc(localDate(e.date, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</span>
+        <span>${esc(e.venue)}</span>
+        <span>${e.getInPrice ? `From ${money(e.getInPrice)}` : "No listings"} on ${e.markets.length} marketplace${e.markets.length === 1 ? "" : "s"}</span>
+      </button>`).join("");
+    $("#event-rail").hidden = list.length < 2;
+  }
+
+  function setLocation(st, city) {
+    const evs = state.index.events;
+    state.loc.state = st && evs.some((e) => e.state === st) ? st : evs[0].state;
+    const inState = evs.filter((e) => e.state === state.loc.state);
+    state.loc.city = city && inState.some((e) => e.city === city) ? city : inState[0].city;
+    const list = eventsIn(state.loc);
+    if (!list.some((e) => e.id === state.eventId)) state.eventId = list[0].id;
+  }
+
+  // ---------- Rendering: event ----------
+  function renderHeader() {
+    const ev = state.data.event, v = ev.venue || {};
+    document.title = `${ev.name}: best seats for the money`;
+    $("#event-title").textContent = ev.name;
+    const caps = Object.values(state.data.captures);
+    const tickets = caps.reduce((a, c) => a + (c.stats?.ticketCount || 0), 0);
+    $("#event-meta").innerHTML = [
+      `<span><b>${esc(v.name)}</b></span>`,
+      `<span>${esc(localDate(ev.eventDateLocal, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }))}</span>`,
+      `<span>${state.listings.length} listings, ${tickets} tickets on ${caps.length} marketplaces</span>`,
+      `<span>Prices captured ${esc(fmtDate(state.data.capturedAt, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</span>`,
+    ].join("");
+    $("#sandbox-note").innerHTML = state.data.sandbox
+      ? `<div class="sandbox-note" role="note">Sample data from the Tickets.dev sandbox, not live prices. Add your TICKETS_DEV_KEY to the repo and run the Capture workflow for a real city to load live listings.</div>`
+      : "";
+  }
+
+  function stub(l, title, rows, hero) {
+    const why = [`${LEVEL[l.level].name}${l.rowNum != null ? `, row ${esc(l.row)}` : ""}, quality ${l.q}/100`];
+    if (hero) {
+      if (l.frontier && !rows.some((r) => r.totalPrice < l.totalPrice && r.q >= l.q)) why.push("No cheaper listing is a better seat");
+      const sorted = rows.map((r) => r.totalPrice).sort((a, b) => a - b);
+      const median = sorted[Math.floor(sorted.length / 2)];
+      if (rows.length > 2 && Math.abs(median - l.totalPrice) >= 1) why.push(median > l.totalPrice ? `${money(median - l.totalPrice)} under the median ticket` : `${money(l.totalPrice - median)} over the median ticket`);
+    }
+    if (l.limited) why.push("Limited or obstructed view");
+    if (l.cheaperElsewhere) why.push(`Same row for ${money(l.cheaperElsewhere.totalPrice)} on ${MARKETS[l.cheaperElsewhere.market]}`);
+    if (!hero) why.push(`Value score ${l.value}`);
+    const cell = (label, v) => `<div class="seat-cell"><span>${label}</span><strong>${esc(v)}</strong></div>`;
+    return `<article class="stub ${hero ? "hero" : ""}" aria-label="${esc(title)}">
+      <div class="stub-main">
+        ${hero ? `<div class="score-pill">Value score ${l.value}</div>` : ""}
+        <h2>${esc(title)}</h2>
+        <div class="seat-line">${cell("Section", l.section || "—")}${cell("Row", l.rowNum != null ? l.row : "—")}${l.seats && l.seats.length < 14 ? cell("Seats", l.seats) : ""}</div>
+        <ul class="stub-why">${why.slice(0, hero ? 4 : 3).map((r) => `<li>${r}</li>`).join("")}</ul>
+      </div>
+      <div class="stub-tear">
+        <div>
+          <div class="market-name">${MARKETS[l.market]}</div>
+          <div class="price-big">${money(l.totalPrice)}</div>
+          <div class="price-sub">each, with fees${state.qty > 1 ? `<br>${money(l.totalPrice * state.qty)} for ${state.qty}` : ""}</div>
+        </div>
+        <a class="buy" href="${esc(l.sourceUrl)}" target="_blank" rel="noopener">Open ${MARKETS[l.market]}</a>
+      </div>
+    </article>`;
+  }
+
+  function renderPicks(rows) {
+    const el = $("#picks");
+    el.style.gridTemplateColumns = "";
+    if (!rows.length) {
+      el.style.gridTemplateColumns = "1fr";
+      el.innerHTML = `<article class="stub hero"><div class="stub-main"><h2>No listings match these filters</h2><p style="margin:0">Raise the price limit, choose fewer tickets, or include more marketplaces and seating levels.</p></div></article>`;
+      return;
+    }
+    const byValue = [...rows].sort((a, b) => b.value - a.value || a.totalPrice - b.totalPrice);
+    const best = byValue[0];
+    const cheapest = [...rows].sort((a, b) => a.totalPrice - b.totalPrice || b.q - a.q)[0];
+    const bestSeat = [...rows].sort((a, b) => b.q - a.q || a.totalPrice - b.totalPrice)[0];
+    const used = new Set([best.uid]), side = [];
+    if (!used.has(cheapest.uid)) { side.push(stub(cheapest, "Cheapest way in", rows)); used.add(cheapest.uid); }
+    if (!used.has(bestSeat.uid)) { side.push(stub(bestSeat, "Best seat available", rows)); used.add(bestSeat.uid); }
+    for (const r of byValue) { if (side.length >= 2) break; if (!used.has(r.uid)) { side.push(stub(r, "Runner-up value", rows)); used.add(r.uid); } }
+    el.innerHTML = stub(best, "Best seat for the money", rows, true) + (side.length ? `<div class="side-picks">${side.join("")}</div>` : "");
+    if (!side.length) el.style.gridTemplateColumns = "1fr";
+  }
+
+  function renderMarkets() {
+    // Honour quantity, level and view filters, but always show every marketplace so they can be compared.
+    const rows = state.listings.filter((l) => baseFilter(l, true));
+    const by = {};
+    for (const r of rows) (by[r.market] ||= []).push(r);
+    const all = Object.keys(MARKETS).map((m) => {
+      const list = by[m] || [];
+      const low = list.length ? list.reduce((a, b) => (b.totalPrice < a.totalPrice ? b : a)) : null;
+      return { m, cap: state.data.captures[m], list, low, err: state.data.errors?.[m] };
+    });
+    const prices = all.filter((x) => x.low).map((x) => x.low.totalPrice);
+    const max = Math.max(...prices, 1), min = Math.min(...prices);
+    const link = (m, cap) => `<a href="${esc(cap.sourceUrl)}" target="_blank" rel="noopener">Open ${MARKETS[m]}</a>`;
+    $("#markets").innerHTML = `<div class="mrow head"><span>Marketplace</span><span>Lowest price for ${state.qty} ticket${state.qty > 1 ? "s" : ""}</span><span class="num">Each</span><span class="num">Listings</span><span></span></div>` +
+      all.sort((a, b) => (a.low?.totalPrice ?? 1e12) - (b.low?.totalPrice ?? 1e12)).map(({ m, cap, list, low, err }) => {
+        if (!cap) return `<div class="mrow missing"><span class="mname">${MARKETS[m]}</span><span>${err ? "Capture failed on the last run" : "Not listed for this event"}</span><span></span><span></span><span></span></div>`;
+        if (!low) return `<div class="mrow missing"><span class="mname">${MARKETS[m]}</span><span>Nothing matches your filters</span><span></span><span class="num">0</span><span>${link(m, cap)}</span></div>`;
+        return `<div class="mrow"><span class="mname">${MARKETS[m]}</span>
+          <span><div class="mbar"><b style="width:${Math.max(4, low.totalPrice / max * 100)}%"></b></div></span>
+          <span class="num">${low.totalPrice === min ? `<span class="cheapest">Cheapest</span>` : ""}<b>${money(low.totalPrice)}</b></span>
+          <span class="num">${list.length}</span>
+          <span>${link(m, cap)}</span></div>`;
+      }).join("");
+  }
+
+  function renderControls() {
+    const ls = state.listings;
+    const maxQ = Math.min(8, Math.max(1, ...ls.flatMap((l) => String(l.sellableQuantities || l.quantity || 1).split(",").map(Number).filter(Boolean))));
+    if (state.qty > maxQ) state.qty = 1;
+    $("#qty").innerHTML = Array.from({ length: maxQ }, (_, i) => i + 1).map((n) => `<button type="button" data-q="${n}" aria-pressed="${n === state.qty}">${n}</button>`).join("");
+
+    const prices = ls.map((l) => l.totalPrice);
+    const lo = Math.floor(Math.min(...prices)), hi = Math.ceil(Math.max(...prices));
+    const r = $("#max-price");
+    r.min = lo; r.max = hi; r.step = Math.max(1, Math.round((hi - lo) / 200));
+    if (!Number.isFinite(state.maxPrice) || state.maxPrice > hi || state.maxPrice < lo) state.maxPrice = hi;
+    r.value = state.maxPrice; r.disabled = lo === hi;
+
+    const count = (key) => ls.reduce((o, l) => ((o[l[key]] = (o[l[key]] || 0) + 1), o), {});
+    const mc = count("market"), lc = count("level");
+    $("#mkt-chips").innerHTML = Object.keys(MARKETS).filter((m) => mc[m])
+      .map((m) => `<button type="button" class="chip" data-market="${m}" aria-pressed="${state.markets.has(m)}">${MARKETS[m]}<span class="n">${mc[m]}</span></button>`).join("");
+    $("#levels").innerHTML = LEVELS.filter((l) => lc[l.key])
+      .map((l) => `<button type="button" class="chip" data-level="${l.key}" aria-pressed="${state.levels.has(l.key)}">${l.name}<span class="n">${lc[l.key]}</span></button>`).join("");
+    $("#hide-limited").checked = state.hideLimited;
+    $("#hide-limited").closest("label").hidden = !ls.some((l) => l.limited);
+    $("#show-accessible").checked = state.showAccessible;
+    $("#show-accessible").closest("label").hidden = !ls.some((l) => l.accessible);
+  }
+
+  function niceTicks(min, max, n = 5) {
+    if (min === max) { min -= 10; max += 10; }
+    const step0 = (max - min) / n, mag = 10 ** Math.floor(Math.log10(step0));
+    const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= step0);
+    const out = [];
+    for (let t = Math.floor(min / step) * step; ; t += step) { out.push(+t.toFixed(6)); if (t >= max - 1e-9) break; }
+    return out;
+  }
+
+  function renderChart(rows) {
+    const svg = $("#chart"), tip = $("#tip");
+    const Wd = svg.clientWidth || 640, H = 340, m = { t: 12, r: 16, b: 44, l: 48 };
+    svg.setAttribute("viewBox", `0 0 ${Wd} ${H}`);
+    if (!rows.length) { svg.innerHTML = `<text x="${Wd / 2}" y="${H / 2}" text-anchor="middle" fill="var(--ink-3)" font-size="14">No listings to plot</text>`; return; }
+    const xs = niceTicks(Math.min(...rows.map((r) => r.totalPrice)), Math.max(...rows.map((r) => r.totalPrice)));
+    const ys = [0, 25, 50, 75, 100];
+    const x = (v) => m.l + (v - xs[0]) / (xs.at(-1) - xs[0]) * (Wd - m.l - m.r);
+    const y = (v) => H - m.b - v / 100 * (H - m.t - m.b);
+    const front = rows.filter((r) => r.frontier).sort((a, b) => a.totalPrice - b.totalPrice);
+    let path = "";
+    front.forEach((r, i) => { path += i === 0 ? `M${x(r.totalPrice)},${y(r.q)}` : `H${x(r.totalPrice)}V${y(r.q)}`; });
+    if (front.length) path += `H${x(xs.at(-1))}`;
+    svg.innerHTML = `
+      <g class="grid">${ys.map((t) => `<line x1="${m.l}" x2="${Wd - m.r}" y1="${y(t)}" y2="${y(t)}"/>`).join("")}</g>
+      <g class="axis">
+        ${ys.map((t) => `<text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join("")}
+        ${xs.map((t) => `<text x="${x(t)}" y="${H - m.b + 18}" text-anchor="middle">${money(t)}</text>`).join("")}
+        <text class="axis-title" x="${m.l + (Wd - m.l - m.r) / 2}" y="${H - 6}" text-anchor="middle">Price per ticket, fees included</text>
+        <text class="axis-title" transform="translate(12 ${m.t + (H - m.t - m.b) / 2}) rotate(-90)" text-anchor="middle">Seat quality</text>
+      </g>
+      <path d="${path}" fill="none" stroke="var(--series-2)" stroke-width="2" stroke-linejoin="round"/>
+      <g>${[...rows].sort((a, b) => a.frontier - b.frontier).map((r) =>
+        `<circle class="dot" data-uid="${esc(r.uid)}" cx="${x(r.totalPrice)}" cy="${y(r.q)}" r="${r.frontier ? 6 : 5}" fill="${r.frontier ? "var(--series-2)" : "var(--series-1)"}" tabindex="0" aria-label="${MARKETS[r.market]}, section ${esc(r.section)} row ${esc(r.row)}, ${money(r.totalPrice)}, quality ${r.q}"/>`).join("")}</g>`;
+    const show = (e) => {
+      const c = e.target.closest?.(".dot"); if (!c) return;
+      const r = rows.find((z) => z.uid === c.dataset.uid);
+      tip.innerHTML = `<b>${MARKETS[r.market]}: sec ${esc(r.section)}, row ${esc(r.row)}</b><br>${money(r.totalPrice)} each, quality ${r.q}, value ${r.value}${r.frontier ? "<br>On the best-value line" : ""}`;
+      const scale = svg.getBoundingClientRect().width / Wd;
+      tip.style.left = `${+c.getAttribute("cx") * scale}px`;
+      tip.style.top = `${+c.getAttribute("cy") * scale}px`;
+      tip.classList.add("on");
+    };
+    const hide = () => tip.classList.remove("on");
+    svg.onmouseover = show; svg.onfocusin = show; svg.onmouseout = hide; svg.onfocusout = hide;
+  }
+
+  const COLS = [
+    { key: "value", label: "Value", get: (r) => r.value },
+    { key: "section", label: "Seat", get: (r) => r.section },
+    { key: "market", label: "Marketplace", get: (r) => MARKETS[r.market] },
+    { key: "q", label: "Quality", num: true, get: (r) => r.q },
+    { key: "totalPrice", label: "Each, with fees", num: true, get: (r) => r.totalPrice },
+    { key: "total", label: "Total", num: true, get: (r) => r.totalPrice * state.qty },
+    { key: "quantity", label: "Available", num: true, get: (r) => r.quantity },
+    { key: "notes", label: "Notes", get: (r) => (r.limited ? "a" : "") + (r.listingNotes || "") },
+  ];
+
+  function renderTable(rows) {
+    const { key, dir } = state.sort;
+    $("#thead").innerHTML = COLS.map((c) => `<th class="${c.num ? "num" : ""}" aria-sort="${c.key === key ? (dir === "asc" ? "ascending" : "descending") : "none"}"><button type="button" data-sort="${c.key}">${c.label}</button></th>`).join("");
+    const more = $("#show-all");
+    if (!rows.length) {
+      more.hidden = true;
+      $("#tbody").innerHTML = `<tr><td colspan="${COLS.length}"><div class="empty">No listings match these filters.<br><button type="button" id="reset">Clear filters</button></div></td></tr>`;
+      return;
+    }
+    const col = COLS.find((c) => c.key === key);
+    const sorted = [...rows].sort((a, b) => {
+      const va = col.get(a), vb = col.get(b);
+      const d = typeof va === "number" ? va - vb : String(va).localeCompare(String(vb), undefined, { numeric: true });
+      return (dir === "asc" ? d : -d) || a.totalPrice - b.totalPrice;
+    });
+    const LIMIT = 25;
+    more.hidden = sorted.length <= LIMIT;
+    more.textContent = state.showAll ? "Show the top 25 only" : `Show all ${sorted.length} listings`;
+    $("#tbody").innerHTML = (state.showAll ? sorted : sorted.slice(0, LIMIT)).map((r) => {
+      const tags = [
+        r.frontier && `<span class="tag front">Best-value line</span>`,
+        r.limited && `<span class="tag bad">Limited view</span>`,
+        r.accessible && `<span class="tag">Accessible</span>`,
+        r.premium && `<span class="tag">Package / premium</span>`,
+        r.inventoryType === "primary" && `<span class="tag">Primary</span>`,
+      ].filter(Boolean).join("");
+      return `<tr>
+        <td><div class="value-cell"><b>${r.value}</b><div class="value-bar"><b style="width:${r.value}%"></b></div></div></td>
+        <td><span class="sec">Sec ${esc(r.section)}${r.rowNum != null ? `, row ${esc(r.row)}` : ""}</span><span class="sub">${LEVEL[r.level].name}${r.seats && r.seats.length < 20 ? `, seats ${esc(r.seats)}` : ""}</span></td>
+        <td><a href="${esc(r.sourceUrl)}" target="_blank" rel="noopener">${MARKETS[r.market]}</a>${r.cheaperElsewhere ? `<span class="elsewhere">${money(r.cheaperElsewhere.totalPrice)} on ${MARKETS[r.cheaperElsewhere.market]}</span>` : ""}</td>
+        <td class="num">${r.q}</td>
+        <td class="num"><b>${money(r.totalPrice)}</b>${r.fee ? `<span class="sub">${money(r.fee, 2)} fees</span>` : ""}</td>
+        <td class="num">${money(r.totalPrice * state.qty)}</td>
+        <td class="num">${r.quantity}${r.sellableQuantities && r.sellableQuantities !== String(r.quantity) && r.sellableQuantities.length < 12 ? `<span class="sub">sells ${esc(r.sellableQuantities)}</span>` : ""}</td>
+        <td><div class="tags">${tags || `<span class="muted">—</span>`}</div></td>
+      </tr>`;
+    }).join("");
+  }
+
+  function renderWeights() {
+    $("#weights").innerHTML = [["Seat quality", W.quality], ["Low price", W.price]].map(([n, w]) =>
+      `<div class="weight"><span>${n}</span><div class="bar"><b style="width:${w * 100}%"></b></div><span>${Math.round(w * 100)}%</span></div>`).join("");
+  }
+
+  function renderFooter() {
+    $("#footer").innerHTML = `<p>Listings from SeatGeek, StubHub, TickPick, Ticketmaster, Vivid Seats and Gametime via the Tickets.dev capture API. Prices include fees and exclude sales tax. They move fast, so confirm on the marketplace before you buy.</p>
+      <p>Seat quality is an estimate from section, row and listing notes; it doesn't know every venue's sightlines. Data updated ${esc(fmtDate(state.index.updatedAt, { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }))}.</p>`;
+  }
+
+  function update() {
+    const rows = filtered();
+    $("#result-count").textContent = `${rows.length} of ${state.listings.length} listings`;
+    $("#max-price-out").textContent = money(state.maxPrice);
+    renderPicks(rows); renderMarkets(); renderChart(rows); renderTable(rows);
+  }
+
+  function syncUrl() {
+    const u = new URL(location);
+    u.searchParams.set("state", state.loc.state); u.searchParams.set("city", state.loc.city); u.searchParams.set("event", state.eventId);
+    history.replaceState(null, "", u);
+  }
+
+  async function loadEvent() {
+    renderLocation(); syncUrl();
+    const data = await fetch(`data/events/${encodeURIComponent(state.eventId)}.json`, { cache: "no-store" }).then((r) => {
+      if (!r.ok) throw new Error(`Couldn't load the listings for this event (${r.status}).`);
+      return r.json();
+    });
+    data.currency = Object.values(data.captures)[0]?.currency || "USD";
+    state.data = data;
+    state.listings = Object.entries(data.captures).flatMap(([m, c]) =>
+      (c.listings || []).filter((l) => +l.totalPrice > 0).map((l) => enrich(l, m, c.sourceUrl)));
+    state.markets.clear(); state.levels.clear(); state.maxPrice = Infinity; state.showAll = false;
+    renderHeader(); renderFooter();
+    $("#event-body").hidden = !state.listings.length;
+    if (!state.listings.length) {
+      $("#picks").innerHTML = `<div class="notice"><p><b>No listings were found for this event.</b> It may be sold out, or the capture caught a partial page. Run the Capture workflow again.</p></div>`;
+      return;
+    }
+    renderControls(); update();
+  }
+
+  function bind() {
+    $("#state").addEventListener("change", (e) => { setLocation(e.target.value, ""); loadEvent().catch(fail); });
+    $("#city").addEventListener("change", (e) => { setLocation(state.loc.state, e.target.value); loadEvent().catch(fail); });
+    $("#event-rail").addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (!b) return; state.eventId = b.dataset.id; loadEvent().catch(fail); });
+    $("#qty").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; state.qty = +b.dataset.q; renderControls(); update(); });
+    $("#max-price").addEventListener("input", (e) => { state.maxPrice = +e.target.value; update(); });
+    const chipToggle = (set, attr) => (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      const k = b.dataset[attr]; set.has(k) ? set.delete(k) : set.add(k);
+      b.setAttribute("aria-pressed", set.has(k)); update();
+    };
+    $("#mkt-chips").addEventListener("click", chipToggle(state.markets, "market"));
+    $("#levels").addEventListener("click", chipToggle(state.levels, "level"));
+    $("#hide-limited").addEventListener("change", (e) => { state.hideLimited = e.target.checked; update(); });
+    $("#show-accessible").addEventListener("change", (e) => { state.showAccessible = e.target.checked; update(); });
+    $("#thead").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-sort]"); if (!b) return;
+      const k = b.dataset.sort;
+      state.sort = state.sort.key === k ? { key: k, dir: state.sort.dir === "asc" ? "desc" : "asc" } : { key: k, dir: ["section", "market", "notes", "totalPrice", "total"].includes(k) ? "asc" : "desc" };
+      renderTable(filtered());
+    });
+    $("#tbody").addEventListener("click", (e) => {
+      if (e.target.id !== "reset") return;
+      state.markets.clear(); state.levels.clear(); state.maxPrice = +$("#max-price").max; state.qty = 1; state.hideLimited = false;
+      renderControls(); update();
+    });
+    $("#show-all").addEventListener("click", () => { state.showAll = !state.showAll; renderTable(filtered()); });
+    let t; window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => state.data && renderChart(filtered()), 120); });
+  }
+
+  function fail(err) {
+    $("#event-title").textContent = "No events yet";
+    $("#where").hidden = true;
+    $("#event-body").hidden = true;
+    $("#picks").innerHTML = `<div class="notice"><p><b>${esc(err.message)}</b></p><p>Open the <a href="${repo}/actions/workflows/capture.yml">Capture workflow</a>, choose Run workflow, and enter a city and state.</p></div>`;
+  }
+
+  async function init() {
+    renderWeights(); bind();
+    try {
+      const index = await fetch("data/index.json", { cache: "no-store" }).then((r) => {
+        if (!r.ok) throw new Error("No events have been captured yet.");
+        return r.json();
+      });
+      if (!index.events?.length) throw new Error("No events have been captured yet.");
+      state.index = index;
+      const p = new URL(location).searchParams;
+      const want = index.events.find((e) => e.id === p.get("event"));
+      state.eventId = want?.id || "";
+      setLocation(want?.state || p.get("state"), want?.city || p.get("city"));
+      await loadEvent();
+    } catch (e) { fail(e); }
+  }
+  init();
+})();
+</script>
+</body>
+</html>
