@@ -55,299 +55,28 @@
     "url": "https://www.viagogo.com/Concert-Tickets/Rock-and-Pop/The-Eagles-Tickets/E-161551904"
    }
   ],
-  "updatedAt": "2026-11-14T17:31:26.067Z"
+  "updatedAt": "2026-11-14T17:40:46.096Z"
  },
  "captures": {
-  "seatgeek": {
-   "source": "seatgeek",
-   "eventId": "18355052",
-   "eventName": "Eagles",
-   "venueName": "Sphere",
-   "venueCity": "Las Vegas",
-   "venueState": "NV",
-   "venueTimezone": "America/Los_Angeles",
-   "eventDateLocal": "2026-12-11T20:30:00-08:00",
-   "eventDateUtc": "2026-12-12T04:30:00+00:00",
-   "sourceUrl": "https://seatgeek.com/eagles-tickets/las-vegas-nevada-sphere-2026-12-11-8-30-pm/concert/18355052",
-   "currency": "USD",
-   "note": "",
-   "seatLevelUrl": "",
-   "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.380Z",
-   "stats": {
-    "listingCount": 4,
-    "ticketCount": 7,
-    "getInPrice": 402,
-    "medianPrice": 418,
-    "avgPrice": 418.75,
-    "maxPrice": 437
-   },
-   "listings": [
-    {
-     "listingId": "A6rs27JVemV",
-     "inventoryType": "resale",
-     "section": "110",
-     "row": "37",
-     "quantity": 1,
-     "ticketPrice": 344,
-     "fee": 57.85,
-     "totalPrice": 402,
-     "ticketType": "",
-     "sellableQuantities": "1",
-     "group": "",
-     "seats": "",
-     "listingNotes": "",
-     "dealScore": "5"
-    },
-    {
-     "listingId": "agktlD3JJZm",
-     "inventoryType": "resale",
-     "section": "110",
-     "row": "33",
-     "quantity": 1,
-     "ticketPrice": 344,
-     "fee": 57.85,
-     "totalPrice": 402,
-     "ticketType": "",
-     "sellableQuantities": "1",
-     "group": "",
-     "seats": "",
-     "listingNotes": "",
-     "dealScore": "6"
-    },
-    {
-     "listingId": "EroUXnGoMeN",
-     "inventoryType": "resale",
-     "section": "405",
-     "row": "21",
-     "quantity": 3,
-     "ticketPrice": 372,
-     "fee": 61.89,
-     "totalPrice": 434,
-     "ticketType": "",
-     "sellableQuantities": "1,3",
-     "group": "",
-     "seats": "",
-     "listingNotes": "",
-     "dealScore": "10"
-    },
-    {
-     "listingId": "6mOhkAvDllp",
-     "inventoryType": "resale",
-     "section": "109",
-     "row": "36",
-     "quantity": 2,
-     "ticketPrice": 375,
-     "fee": 62,
-     "totalPrice": 437,
-     "ticketType": "",
-     "sellableQuantities": "2",
-     "group": "",
-     "seats": "",
-     "listingNotes": "",
-     "dealScore": "4"
-    }
-   ],
-   "venueLayout": {
-    "level": "none",
-    "sections": []
-   }
-  },
-  "stubhub": {
-   "source": "stubhub",
-   "eventId": "161551904",
-   "eventName": "The Eagles",
-   "venueName": "Sphere at The Venetian Resort",
-   "venueCity": "Las Vegas",
-   "venueState": "Nevada",
-   "venueTimezone": "",
-   "eventDateLocal": "2026-12-11T20:30:00-08:00",
-   "eventDateUtc": "2026-12-12T04:30:00+00:00",
-   "sourceUrl": "https://www.stubhub.com/the-eagles-las-vegas-tickets-12-11-2026/event/161551904",
-   "currency": "USD",
-   "note": "",
-   "seatLevelUrl": "",
-   "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.307Z",
-   "stats": {
-    "listingCount": 4,
-    "ticketCount": 9,
-    "getInPrice": 434.76,
-    "medianPrice": 441.19,
-    "avgPrice": 442.06,
-    "maxPrice": 451.09
-   },
-   "listings": [
-    {
-     "listingId": "13362523051",
-     "inventoryType": "resale",
-     "section": "408",
-     "row": "Row",
-     "quantity": 2,
-     "ticketPrice": 434.76,
-     "fee": 0,
-     "totalPrice": 434.76,
-     "ticketType": "Mobile Transfer ticket",
-     "sellableQuantities": "2",
-     "group": "400 Level",
-     "seats": "",
-     "listingNotes": "Clear view",
-     "dealScore": "7.29"
-    },
-    {
-     "listingId": "13541516708",
-     "inventoryType": "resale",
-     "section": "110",
-     "row": "33",
-     "quantity": 1,
-     "ticketPrice": 434.94,
-     "fee": 0,
-     "totalPrice": 434.94,
-     "ticketType": "Mobile Transfer ticket",
-     "sellableQuantities": "1",
-     "group": "100 Level",
-     "seats": "",
-     "listingNotes": "Limited or Obstructed View (printed on ticket)",
-     "dealScore": "8.54"
-    },
-    {
-     "listingId": "13365421589",
-     "inventoryType": "resale",
-     "section": "407",
-     "row": "22",
-     "quantity": 3,
-     "ticketPrice": 447.44,
-     "fee": 0,
-     "totalPrice": 447.44,
-     "ticketType": "Mobile Transfer ticket",
-     "sellableQuantities": "1,3",
-     "group": "400 Level",
-     "seats": "",
-     "listingNotes": "Clear view",
-     "dealScore": "7.74"
-    },
-    {
-     "listingId": "13363868741",
-     "inventoryType": "resale",
-     "section": "409",
-     "row": "3",
-     "quantity": 3,
-     "ticketPrice": 451.09,
-     "fee": 0,
-     "totalPrice": 451.09,
-     "ticketType": "Mobile Transfer ticket",
-     "sellableQuantities": "1,3",
-     "group": "400 Level",
-     "seats": "",
-     "listingNotes": "Third Row of Section, Clear view",
-     "dealScore": "7.37"
-    }
-   ],
-   "venueLayout": {
-    "level": "none",
-    "sections": []
-   }
-  },
-  "tickpick": {
-   "source": "tickpick",
-   "eventId": "8113666",
-   "eventName": "The Eagles",
-   "venueName": "Sphere",
-   "venueCity": "Las Vegas",
-   "venueState": "NV",
-   "venueTimezone": "America/Los_Angeles",
-   "eventDateLocal": "2026-12-11T20:30:00-08:00",
-   "eventDateUtc": "2026-12-12T04:30:00+00:00",
-   "sourceUrl": "https://www.tickpick.com/buy-the-eagles-tickets-sphere-12-11-26-8pm/8113666/",
-   "currency": "USD",
-   "note": "",
-   "seatLevelUrl": "",
-   "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.453Z",
-   "stats": {
-    "listingCount": 4,
-    "ticketCount": 10,
-    "getInPrice": 414,
-    "medianPrice": 415.5,
-    "avgPrice": 418.5,
-    "maxPrice": 429
-   },
-   "listings": [
-    {
-     "listingId": "5698666771",
-     "inventoryType": "resale",
-     "section": "110",
-     "row": "36",
-     "quantity": 2,
-     "ticketPrice": 414,
-     "fee": 0,
-     "totalPrice": 414,
-     "ticketType": "",
-     "sellableQuantities": "2",
-     "group": "",
-     "seats": "",
-     "listingNotes": "Obstructed View; Limited view of Sphere screen - Full View of Band and Stage XFER",
-     "dealScore": ""
-    },
-    {
-     "listingId": "5702785788",
-     "inventoryType": "resale",
-     "section": "301",
-     "row": "9",
-     "quantity": 3,
-     "ticketPrice": 415,
-     "fee": 0,
-     "totalPrice": 415,
-     "ticketType": "",
-     "sellableQuantities": "1,3",
-     "group": "",
-     "seats": "",
-     "listingNotes": "",
-     "dealScore": ""
-    },
-    {
-     "listingId": "5694183283",
-     "inventoryType": "resale",
-     "section": "409",
-     "row": "3",
-     "quantity": 3,
-     "ticketPrice": 416,
-     "fee": 0,
-     "totalPrice": 416,
-     "ticketType": "",
-     "sellableQuantities": "1,3",
-     "group": "",
-     "seats": "",
-     "listingNotes": "XFER",
-     "dealScore": ""
-    },
-    {
-     "listingId": "5700342545",
-     "inventoryType": "resale",
-     "section": "109",
-     "row": "36",
-     "quantity": 2,
-     "ticketPrice": 429,
-     "fee": 0,
-     "totalPrice": 429,
-     "ticketType": "",
-     "sellableQuantities": "2",
-     "group": "",
-     "seats": "",
-     "listingNotes": "Full View of Stage. Limited view of Sphere XFER",
-     "dealScore": ""
-    }
-   ],
-   "venueLayout": {
-    "level": "none",
-    "sections": []
-   }
-  },
   "ticketmaster": {
    "source": "ticketmaster",
    "eventId": "17006483D6FAFC60",
    "eventName": "Eagles Live at Sphere",
+   "performers": [
+    {
+     "performerId": "734977",
+     "name": "Eagles",
+     "master": true
+    },
+    {
+     "performerId": "3164219",
+     "name": "Eagles Live at Sphere",
+     "master": false
+    }
+   ],
+   "venueId": "189524",
    "venueName": "Sphere",
+   "venueAddress": "255 Sands Avenue ",
    "venueCity": "Las Vegas",
    "venueState": "NV",
    "venueTimezone": "America/Los_Angeles",
@@ -355,10 +84,10 @@
    "eventDateUtc": "2026-12-12T04:30:00+00:00",
    "sourceUrl": "https://www.ticketmaster.com/eagles-live-at-sphere-las-vegas-nevada-12-11-2026/event/17006483D6FAFC60",
    "currency": "USD",
-   "note": "PLEASE NOTE: Pricing is all-in and includes fees (before taxes if applicable). This event may include immersive elements such as seat haptics, movement sensations, flashing lights, intense lighting, visual effects, loud noises, and atmospheric simulations.",
+   "note": "PLEASE NOTE: Pricing is all-in and includes fees (before taxes if applicable). This event may include immersive elements such as seat haptics, movement sensations, flashing lights, intense lighting, visual effects, loud noises, and atmospheric simulations. Such elements may aggravate certain medical or physical conditions, and guests should take into consideration these elements, including if they have a history of discomfort or physical symptoms when experiencing them. Visit the Sphere FAQs on thespherevegas.com closer to your event date for the newest event information.",
    "seatLevelUrl": "",
    "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.143Z",
+   "capturedAt": "2026-11-14T17:40:46.196Z",
    "stats": {
     "listingCount": 4,
     "ticketCount": 43,
@@ -442,7 +171,16 @@
    "source": "vividseats",
    "eventId": "7256971",
    "eventName": "The Eagles",
+   "performers": [
+    {
+     "performerId": "2533",
+     "name": "The Eagles",
+     "master": true
+    }
+   ],
+   "venueId": "31696",
    "venueName": "Sphere at The Venetian Resort",
+   "venueAddress": "255 Sands Ave",
    "venueCity": "Las Vegas",
    "venueState": "NV",
    "venueTimezone": "US/Pacific",
@@ -453,7 +191,7 @@
    "note": "",
    "seatLevelUrl": "",
    "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.211Z",
+   "capturedAt": "2026-11-14T17:40:46.241Z",
    "stats": {
     "listingCount": 4,
     "ticketCount": 20,
@@ -533,11 +271,332 @@
     "sections": []
    }
   },
+  "stubhub": {
+   "source": "stubhub",
+   "eventId": "161551904",
+   "eventName": "The Eagles",
+   "performers": [
+    {
+     "performerId": "5526",
+     "name": "The Eagles",
+     "master": true
+    }
+   ],
+   "venueId": "150030906",
+   "venueName": "Sphere at The Venetian Resort",
+   "venueAddress": "255 Sands Ave",
+   "venueCity": "Las Vegas",
+   "venueState": "Nevada",
+   "venueTimezone": "",
+   "eventDateLocal": "2026-12-11T20:30:00-08:00",
+   "eventDateUtc": "2026-12-12T04:30:00+00:00",
+   "sourceUrl": "https://www.stubhub.com/the-eagles-las-vegas-tickets-12-11-2026/event/161551904",
+   "currency": "USD",
+   "note": "",
+   "seatLevelUrl": "",
+   "sectionLevelUrl": "",
+   "capturedAt": "2026-11-14T17:40:46.308Z",
+   "stats": {
+    "listingCount": 4,
+    "ticketCount": 9,
+    "getInPrice": 434.76,
+    "medianPrice": 441.19,
+    "avgPrice": 442.06,
+    "maxPrice": 451.09
+   },
+   "listings": [
+    {
+     "listingId": "13362523051",
+     "inventoryType": "resale",
+     "section": "408",
+     "row": "Row",
+     "quantity": 2,
+     "ticketPrice": 434.76,
+     "fee": 0,
+     "totalPrice": 434.76,
+     "ticketType": "Mobile Transfer ticket",
+     "sellableQuantities": "2",
+     "group": "400 Level",
+     "seats": "",
+     "listingNotes": "Clear view",
+     "dealScore": "7.29"
+    },
+    {
+     "listingId": "13541516708",
+     "inventoryType": "resale",
+     "section": "110",
+     "row": "33",
+     "quantity": 1,
+     "ticketPrice": 434.94,
+     "fee": 0,
+     "totalPrice": 434.94,
+     "ticketType": "Mobile Transfer ticket",
+     "sellableQuantities": "1",
+     "group": "100 Level",
+     "seats": "",
+     "listingNotes": "Limited or Obstructed View (printed on ticket)",
+     "dealScore": "8.54"
+    },
+    {
+     "listingId": "13365421589",
+     "inventoryType": "resale",
+     "section": "407",
+     "row": "22",
+     "quantity": 3,
+     "ticketPrice": 447.44,
+     "fee": 0,
+     "totalPrice": 447.44,
+     "ticketType": "Mobile Transfer ticket",
+     "sellableQuantities": "1,3",
+     "group": "400 Level",
+     "seats": "",
+     "listingNotes": "Clear view",
+     "dealScore": "7.74"
+    },
+    {
+     "listingId": "13363868741",
+     "inventoryType": "resale",
+     "section": "409",
+     "row": "3",
+     "quantity": 3,
+     "ticketPrice": 451.09,
+     "fee": 0,
+     "totalPrice": 451.09,
+     "ticketType": "Mobile Transfer ticket",
+     "sellableQuantities": "1,3",
+     "group": "400 Level",
+     "seats": "",
+     "listingNotes": "Third Row of Section, Clear view",
+     "dealScore": "7.37"
+    }
+   ],
+   "venueLayout": {
+    "level": "none",
+    "sections": []
+   }
+  },
+  "seatgeek": {
+   "source": "seatgeek",
+   "eventId": "18355052",
+   "eventName": "Eagles",
+   "performers": [
+    {
+     "performerId": "8936",
+     "name": "Eagles",
+     "master": true
+    }
+   ],
+   "venueId": "521212",
+   "venueName": "Sphere",
+   "venueAddress": "255 Sands Avenue",
+   "venueCity": "Las Vegas",
+   "venueState": "NV",
+   "venueTimezone": "America/Los_Angeles",
+   "eventDateLocal": "2026-12-11T20:30:00-08:00",
+   "eventDateUtc": "2026-12-12T04:30:00+00:00",
+   "sourceUrl": "https://seatgeek.com/eagles-tickets/las-vegas-nevada-sphere-2026-12-11-8-30-pm/concert/18355052",
+   "currency": "USD",
+   "note": "",
+   "seatLevelUrl": "",
+   "sectionLevelUrl": "",
+   "capturedAt": "2026-11-14T17:40:46.353Z",
+   "stats": {
+    "listingCount": 4,
+    "ticketCount": 7,
+    "getInPrice": 402,
+    "medianPrice": 418,
+    "avgPrice": 418.75,
+    "maxPrice": 437
+   },
+   "listings": [
+    {
+     "listingId": "A6rs27JVemV",
+     "inventoryType": "resale",
+     "section": "110",
+     "row": "37",
+     "quantity": 1,
+     "ticketPrice": 344,
+     "fee": 57.85,
+     "totalPrice": 402,
+     "ticketType": "",
+     "sellableQuantities": "1",
+     "group": "",
+     "seats": "",
+     "listingNotes": "",
+     "dealScore": "5"
+    },
+    {
+     "listingId": "agktlD3JJZm",
+     "inventoryType": "resale",
+     "section": "110",
+     "row": "33",
+     "quantity": 1,
+     "ticketPrice": 344,
+     "fee": 57.85,
+     "totalPrice": 402,
+     "ticketType": "",
+     "sellableQuantities": "1",
+     "group": "",
+     "seats": "",
+     "listingNotes": "",
+     "dealScore": "6"
+    },
+    {
+     "listingId": "EroUXnGoMeN",
+     "inventoryType": "resale",
+     "section": "405",
+     "row": "21",
+     "quantity": 3,
+     "ticketPrice": 372,
+     "fee": 61.89,
+     "totalPrice": 434,
+     "ticketType": "",
+     "sellableQuantities": "1,3",
+     "group": "",
+     "seats": "",
+     "listingNotes": "",
+     "dealScore": "10"
+    },
+    {
+     "listingId": "6mOhkAvDllp",
+     "inventoryType": "resale",
+     "section": "109",
+     "row": "36",
+     "quantity": 2,
+     "ticketPrice": 375,
+     "fee": 62,
+     "totalPrice": 437,
+     "ticketType": "",
+     "sellableQuantities": "2",
+     "group": "",
+     "seats": "",
+     "listingNotes": "",
+     "dealScore": "4"
+    }
+   ],
+   "venueLayout": {
+    "level": "none",
+    "sections": []
+   }
+  },
+  "tickpick": {
+   "source": "tickpick",
+   "eventId": "8113666",
+   "eventName": "The Eagles",
+   "performers": [
+    {
+     "performerId": "334",
+     "name": "The Eagles",
+     "master": true
+    }
+   ],
+   "venueId": "24908",
+   "venueName": "Sphere",
+   "venueAddress": "255 Sands Avenue",
+   "venueCity": "Las Vegas",
+   "venueState": "NV",
+   "venueTimezone": "America/Los_Angeles",
+   "eventDateLocal": "2026-12-11T20:30:00-08:00",
+   "eventDateUtc": "2026-12-12T04:30:00+00:00",
+   "sourceUrl": "https://www.tickpick.com/buy-the-eagles-tickets-sphere-12-11-26-8pm/8113666/",
+   "currency": "USD",
+   "note": "",
+   "seatLevelUrl": "",
+   "sectionLevelUrl": "",
+   "capturedAt": "2026-11-14T17:40:46.399Z",
+   "stats": {
+    "listingCount": 4,
+    "ticketCount": 10,
+    "getInPrice": 414,
+    "medianPrice": 415.5,
+    "avgPrice": 418.5,
+    "maxPrice": 429
+   },
+   "listings": [
+    {
+     "listingId": "5698666771",
+     "inventoryType": "resale",
+     "section": "110",
+     "row": "36",
+     "quantity": 2,
+     "ticketPrice": 414,
+     "fee": 0,
+     "totalPrice": 414,
+     "ticketType": "",
+     "sellableQuantities": "2",
+     "group": "",
+     "seats": "",
+     "listingNotes": "Obstructed View; Limited view of Sphere screen - Full View of Band and Stage XFER",
+     "dealScore": ""
+    },
+    {
+     "listingId": "5702785788",
+     "inventoryType": "resale",
+     "section": "301",
+     "row": "9",
+     "quantity": 3,
+     "ticketPrice": 415,
+     "fee": 0,
+     "totalPrice": 415,
+     "ticketType": "",
+     "sellableQuantities": "1,3",
+     "group": "",
+     "seats": "",
+     "listingNotes": "",
+     "dealScore": ""
+    },
+    {
+     "listingId": "5694183283",
+     "inventoryType": "resale",
+     "section": "409",
+     "row": "3",
+     "quantity": 3,
+     "ticketPrice": 416,
+     "fee": 0,
+     "totalPrice": 416,
+     "ticketType": "",
+     "sellableQuantities": "1,3",
+     "group": "",
+     "seats": "",
+     "listingNotes": "XFER",
+     "dealScore": ""
+    },
+    {
+     "listingId": "5700342545",
+     "inventoryType": "resale",
+     "section": "109",
+     "row": "36",
+     "quantity": 2,
+     "ticketPrice": 429,
+     "fee": 0,
+     "totalPrice": 429,
+     "ticketType": "",
+     "sellableQuantities": "2",
+     "group": "",
+     "seats": "",
+     "listingNotes": "Full View of Stage. Limited view of Sphere XFER",
+     "dealScore": ""
+    }
+   ],
+   "venueLayout": {
+    "level": "none",
+    "sections": []
+   }
+  },
   "gametime": {
    "source": "gametime",
    "eventId": "6a4d17db36420619f2010560",
    "eventName": "The Eagles",
+   "performers": [
+    {
+     "performerId": "599483fd25f2c5712b4cafd0",
+     "name": "Eagles",
+     "master": true
+    }
+   ],
+   "venueId": "6448453e2c18960001831a9c",
    "venueName": "Sphere",
+   "venueAddress": "255 Sands Avenue",
    "venueCity": "Las Vegas",
    "venueState": "NV",
    "venueTimezone": "America/Los_Angeles",
@@ -548,7 +607,7 @@
    "note": "",
    "seatLevelUrl": "",
    "sectionLevelUrl": "",
-   "capturedAt": "2026-11-14T17:31:26.521Z",
+   "capturedAt": "2026-11-14T17:40:46.454Z",
    "stats": {
     "listingCount": 4,
     "ticketCount": 21,
@@ -630,6 +689,6 @@
   }
  },
  "errors": {},
- "capturedAt": "2026-11-14T17:31:26.521Z",
+ "capturedAt": "2026-11-14T17:40:46.470Z",
  "sandbox": true
 }
